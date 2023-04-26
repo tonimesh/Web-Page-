@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+    	#circles, body, table { width: 100%; text-align: center; }
+	    table tr { display: flex; }
+        #red, #green, #blue {
+        	display: block ruby;
+        }
+        #circles, table tr td { margin: 8px; width: 100%; }
+        #red div, #green div, #blue div {
+        	border-radius: 33px;
+        	height: 50px;
+        	width: 50px;
+        	margin: 8px;
+        	animation-name: ease-in;
+        	animation-play-state: running;
+        }
+    </style>
+    <div>
+        <table>
+            <tr>
+                <td>Red: <input id="xInput" type="number" value=0/></td>
+                <td>Green: <input id="yInput" type="number" value=0/></td>
+                <td>Blue: <input id="zInput" type="number" value=0/></td>
+            </tr>
+            <tr>
+                <td>No of circles: <input id="countInput" type="number" value=0/></td>
+            </tr>
+            <tr>
+                <td><button id="submitInput">Submit</button></td>
+            </tr>
+            
+        </table>
+    </div>
+    <div id="circles">
+        <div id="red"></div>
+        <div id="green"></div>
+        <div id="blue"></div>
+    </div>
+    <script>
+        let x=1, y=1, z=1, count;
+        function addCircle(color){
+            let btn = document.createElement("div");
+            document.getElementById(color).appendChild(btn);
+            btn.style.background = color;
+            switch(color){
+                case "red": btn.style.animationDelay = String(x)+"s"; break;
+                case "green": btn.style.animationDelay = String(x+y)+"s"; break;
+                case "blue": btn.style.animationDelay = String(x+y+z)+"s"; break;
+            }
+        }
+        
+        addCircle("red");
+        addCircle("red");
+        addCircle("red");
+        addCircle("red");
+        addCircle("green");
+        addCircle("green");
+        addCircle("green");
+        addCircle("green");
+        addCircle("blue");
+        addCircle("blue");
+        addCircle("blue");
+        addCircle("blue");
+        
+        function onPressBtn(){
+            x = Number.parseFloat(document.getElementById("xInput").value)
+            y = Number.parseFloat(document.getElementById("yInput").value)
+            z = Number.parseFloat(document.getElementById("zInput").value)
+            count = Number.parseFloat(document.getElementById("countInput").value)
+            let circleGrp = document.getElementById("circles");
+	
+	        if(circleGrp.children[0].children.length > count)
+	        {
+                for(var i=0; i<=circleGrp.children[0].children.length; i++){
+            		//remove extras
+                    if(i>=count){
+            	        circleGrp.children[0].removeChild(circleGrp.children[0].children[0]);
+		                circleGrp.children[1].removeChild(circleGrp.children[1].children[0]);
+		                circleGrp.children[2].removeChild(circleGrp.children[2].children[0]);
+		            } else {
+        		        circleGrp.children[0].children[i].style.animationDelay = String(x)+"s";
+		                circleGrp.children[1].children[i].style.animationDelay = String(x+y)+"s";
+		                circleGrp.children[2].children[i].style.animationDelay = String(x+y+z)+"s";
+		            }
+		        }
+	        }
+            else if(circleGrp.children[0].children.length < count)
+            {
+                for(var i=0; i<count; i++){
+                    if(i<circleGrp.children[0].children.length){
+                        //existing circles
+                        circleGrp.children[0].children[i].style.animationDelay = String(x)+"s";
+	                    circleGrp.children[1].children[i].style.animationDelay = String(x+y)+"s";
+	                    circleGrp.children[2].children[i].style.animationDelay = String(x+y+z)+"s";
+            	    } else {
+                        //add extras
+                        addCircle("red");
+                        addCircle("green");
+                        addCircle("blue");
+        		    }
+                }
+            }
+        }
+            
+        document.getElementById("submitInput").addEventListener('click', onPressBtn);
+    </script>
+</body>
+</html>
